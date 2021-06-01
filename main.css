@@ -1,5 +1,7 @@
 :root {
-    --green: hsl(146, 64%, 61%);
+    --transparent: rgba(0, 0, 0, .0);
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 0%);
 }
 
 *, *:before, *:after {
@@ -12,5 +14,40 @@
 
 body {
     height: 100vh;
-    color: var(--green);
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.dark-mode {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+#mode {
+    background-color: var(--transparent);
+    border: 1px solid;
+    border-color: inherit;
+    color: inherit;
+    border-radius: 3px;
+    float: right;
+    margin: .5rem;
+}
+
+#mode .material-icons {
+    display: none;
+}
+
+#mode .active {
+    display: block;
+}
+
+#container {
+    width: 500px;
 }
