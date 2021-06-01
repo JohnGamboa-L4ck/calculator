@@ -11,13 +11,39 @@
         <title>Calculator</title>
     </head>
     <body>
-        <button id = "mode">
+        <button id = "mode" aria-label="toggle dark mode">
             <span id = "lightMode" class= "material-icons">light_mode</span>
             <span id = "darkMode" class= "material-icons">dark_mode</span>
         </button>
         <div id = "container">
-            <p>random text</p>
+            <div id = "calcScreen" contenteditable>0</div>
+            <!-- delete zero later -->
+            <!-- finish the localStorage in darkmode first -->
+            <div id = "calcKeypad">
+                <button>0</button>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
+                <button>÷</button>
+                <button>×</button>
+                <button>-</button>
+                <button>+</button>
+                <button>±</button>
+                <button>.</button>
+                <button>=</button>
+                <button>C</button>
+                <button>AC</button>
+            </div>
         </div>
+        <footer>
+            Created by: L4ck
+        </footer>
     </body>
     <script src="main.js"></script>
 </html>
