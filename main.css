@@ -5,11 +5,13 @@
 
     --primary: hsl(40, 100%, 50%);
     --secondary: hsl(217, 51%, 35%);
-    --tertiary: hsl(340, 100%, 50%);
+    --tertiary: hsl(340, 100%, 44%);
     --quaternary: hsl(210, 71%, 80%);
 
     --background: var(--light);
     --foreground: var(--secondary);
+    --hover: var(--dark);
+    --sun: var(--primary);
 }
 
 .dark-mode {
@@ -20,6 +22,7 @@
 
     --background: var(--dark);
     --foreground: var(--secondary);
+    --hover: var(--sun);
 }
 
 *, *:before, *:after {
@@ -93,29 +96,85 @@ button {
     align-items: stretch;
     justify-content: space-between;
     flex-direction: column;
-    padding: 1rem .5rem .5rem .5rem;
+    padding: 1rem;
 }
 
 #calcScreen {
     background-color: var(--quaternary);
-    min-height: 4rem;
-    max-height: 5rem;;
+    height: 20%;
     text-align: right;
     padding: .5rem;
+    margin: .5rem .5rem 1rem .5rem;
+    border-radius: .2rem;
+    border: 2px inset var(--foreground);
+}
+
+#calcScreen div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     overflow: hidden;
 }
 
+#topHolder {
+    height: 30%;
+    opacity: .8;
+}
+
+#mainHolder {
+    height: 70%;
+    font-size: 2rem;
+}
+
 #calcKeypad {
-    flex: 1;
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
 }
 
 #calcKeypad button {
     color: var(--primary);
     background-color: var(--background);
+    margin: .5rem;
+    border-radius: .1rem;
+    font-size: 1.3rem;
+    font-family: inherit;
+}
+
+#calcKeypad button:hover {
+    background-color: var(--hover)!important;
+}
+
+#calcKeypad button:active {
+    background-color: var(--hover)!important;
+    transform: scale(1.05);
+}
+
+#equal {
+    /*  grid area: row start / column start / row end / column end */
+    grid-area: 4 / 4 / 6 / 5;
+    background-color: var(--quaternary)!important;
+}
+
+#zero {
+    grid-area: 5 / 1 / 6 / 3;
+}
+
+.delete {
+    background-color: var(--tertiary)!important;
+}
+
+.char {
+    font-weight: bold;
+    font-size: 1.4rem;
 }
 
 footer {
     margin: 1rem 0;
+}
+
+footer a {
+    color: var(--primary);
 }
 
 @keyframes rotating {

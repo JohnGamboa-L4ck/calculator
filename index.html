@@ -16,33 +16,51 @@
             <span id = "darkMode" class= "material-icons">dark_mode</span>
         </button>
         <div id = "container">
-            <div id = "calcScreen" contenteditable>0</div>
-            <!-- delete zero later -->
-            <!-- finish the localStorage in darkmode first -->
+            <div id = "calcScreen">
+                <div id = "topHolder"></div>
+                <div id = "mainHolder" contenteditable="true">0</div>
+            </div>
             <div id = "calcKeypad">
-                <button>0</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button>÷</button>
-                <button>×</button>
-                <button>-</button>
-                <button>+</button>
-                <button>±</button>
-                <button>.</button>
-                <button>=</button>
-                <button>C</button>
-                <button>AC</button>
+                <button data-key = "46" class = "key delete">
+                    AC</button>
+                <button data-key = "8" class = "key delete">
+                    C</button>
+                <button data-key = "111" class = "key char">
+                    ÷</button>
+                <button data-key = "106" class = "key char">
+                    ×</button>
+                <button data-key = "103" class = "key">
+                    7</button>
+                <button data-key = "104" class = "key">
+                    8</button>
+                <button data-key = "105" class = "key">
+                    9</button>
+                <button data-key = "109" class = "key char">
+                    -</button>
+                <button data-key = "100" class = "key">
+                    4</button>
+                <button data-key = "101" class = "key">
+                    5</button>
+                <button data-key = "102" class = "key">
+                    6</button>
+                <button data-key = "107" class = "key char">
+                    +</button>
+                <button data-key = "97" class = "key">
+                    1</button>
+                <button data-key = "98" class = "key">
+                    2</button>
+                <button data-key = "99" class = "key">
+                    3</button>
+                <button data-key = "13" id = "equal" class = "key char">
+                    =</button>
+                <button data-key = "96" id = "zero" class = "key">
+                    0</button>
+                <button data-key = "110" class = "key char">
+                    .</button>   
             </div>
         </div>
         <footer>
-            Created by: L4ck
+            Created by: <a href = "https://github.com/JohnGamboa-L4ck">L4ck</a>
         </footer>
     </body>
     <script src="main.js"></script>
