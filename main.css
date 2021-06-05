@@ -111,6 +111,7 @@ button {
 
 #calcScreen div {
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: flex-end;
     overflow: hidden;
@@ -123,7 +124,11 @@ button {
 
 #mainHolder {
     height: 70%;
-    font-size: 2rem;
+    font-size: 2.05rem;
+}
+
+.shrink {
+    font-size: 1.5rem!important;
 }
 
 #calcKeypad {
@@ -164,7 +169,7 @@ button {
     background-color: var(--tertiary)!important;
 }
 
-.char {
+.bold {
     font-weight: bold;
     font-size: 1.4rem;
 }
