@@ -161,10 +161,6 @@ button {
     background-color: var(--quaternary)!important;
 }
 
-#zero {
-    grid-area: 5 / 1 / 6 / 3;
-}
-
 .delete {
     background-color: var(--tertiary)!important;
 }

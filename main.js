@@ -11,9 +11,7 @@ if(darkMode === 'enabled'){
 
 const toggleDarkmode = function(){
     body.classList.toggle('dark-mode');
-    if(body.classList == ''){
-        body.removeAttribute('class');
-    }
+    if (body.classList == '') { body.removeAttribute('class'); }
     updateBtnModeIcon();
 };
 
@@ -21,8 +19,8 @@ const updateBtnModeIcon = function(){
     if(body.classList.contains('dark-mode')){
         iconDarkMode.classList.add('active');
         iconLightMode.classList.remove('active');
-        localStorage.setItem('darkMode', 'enabled');
-    } else {
+        localStorage.setItem('darkMode', 'enabled'); } 
+    else {
         iconLightMode.classList.add('active');
         iconDarkMode.classList.remove('active');
         localStorage.setItem('darkMode', 'disabled');
@@ -35,33 +33,92 @@ btnMode.addEventListener('click', toggleDarkmode);
 const divTopHolder = document.querySelector('#topHolder');
 const divMainHolder = document.querySelector('#mainHolder');
 
-const zero15 = document.querySelector('#zero15');//for testing from here
-const zero11 = document.querySelector('#zero11'); //
-zero15.onclick = function(){ //
-    divMainHolder.innerText = '534,523,453.34555'; // 
-    let x = divMainHolder.innerText;
-    console.log(divMainHolder.innerText);// 
-}; // 
-zero11.onclick = function(){ // 
-    divMainHolder.innerText = '0,000,000,000'; // 
-    console.log(divMainHolder.innerText); // 
-};                                             //to here
-
 const targetNode = divMainHolder;
 const config = { attributes: false, childList: true, subtree: false };
 const callback = function(mutationsList, observer) {
     for(const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            if(divMainHolder.textContent.length > 13){
-                divMainHolder.classList.add('shrink')
-            } else {
-                divMainHolder.removeAttribute('class');
-            }
+            if(divMainHolder.textContent.length > 13) { 
+                divMainHolder.classList.add('shrink') } 
+            else { divMainHolder.removeAttribute('class'); }
         }
     }
 };
 const observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
+
+const isMaxDisplay = () => ( divMainHolder.innerText.length >= 17) ? true : false; 
+
+const calcNumbers = document.querySelectorAll('.num');
+const calcSpecial = document.querySelectorAll('.special');
+const calcDelete = document.querySelectorAll('.delete');
+
+const displayNumber = function(){
+    if(isMaxDisplay()) return; 
+
+    let digitString = this.innerText;
+    let rawNumbersString = divMainHolder.innerText;
+    let filteredNumbersString = rawNumbersString.replace(/\,/g,'');
+
+    if (rawNumbersString.includes('.')) {
+        divMainHolder.innerHTML = `${rawNumbersString}${digitString}`; }
+    else { 
+        let newString = filteredNumbersString += digitString;
+        let readableNumberString = Number(newString).toLocaleString();
+        divMainHolder.innerHTML = readableNumberString;
+    }
+};
+
+calcNumbers.forEach(function(btn){
+    btn.addEventListener('click', displayNumber);
+});
+
+const useSpecial = function(){
+    if (isMaxDisplay()) return; 
+    
+    let dot = '.';
+    let intChanger = '±';
+    let character = this.innerText;
+    let rawNumbersString = divMainHolder.innerText;
+
+    if (character == intChanger && rawNumbersString.includes('-')) { 
+        let newValue = rawNumbersString.replace(/\-/g,'');
+        divMainHolder.innerText = newValue; }
+    else if (character == intChanger) { 
+        divMainHolder.innerText = `-${rawNumbersString}`;
+    }
+
+    if (divMainHolder.innerText.includes('.')) { return; }
+    else if (character == dot && !rawNumbersString.includes(dot)) { 
+        divMainHolder.innerText += dot; 
+    }
+};
+
+calcSpecial.forEach(function(btn){
+    btn.addEventListener('click', useSpecial);
+});
+
+const useDelete = function(){
+    if (divMainHolder.innerText == '0' || divMainHolder.innerText == '-0') { return; };
+
+    let button = this.innerText;
+    let rawNumbersString = divMainHolder.innerText;
+    let filteredNumbersString = rawNumbersString.replace(/\,/g,'');
+
+    if (button == 'C' && !filteredNumbersString.includes('.')) { 
+        let newValue = filteredNumbersString.slice(0, -1); 
+        divMainHolder.innerText = Number(newValue).toLocaleString(); } 
+    else if (button == 'C') {
+        let newValue = filteredNumbersString.slice(0, -1); 
+        divMainHolder.innerText = newValue; } 
+    else { 
+        divMainHolder.innerText = '0';
+    }
+};
+
+calcDelete.forEach(function(btn){
+    btn.addEventListener('click', useDelete);
+});
 
 const add = (fNum, sNum) => fNum + sNum;
 const subtract = (fNum, sNum) => fNum - sNum;
@@ -85,82 +142,21 @@ const operate = (fNum, operator, sNum) => {
     return operation(fNum, sNum);
 };
 
+const calcOperators = document.querySelectorAll('.operator');
+
+const selectOperator = function(){
+    let operator = this.innerText;
+    console.log(operator);
+
+    // resume here??
+};
+
+calcOperators.forEach(function(btn){
+    btn.addEventListener('click', selectOperator);
+});
+
 // let x = operate(4, '-', 2); //
 // console.log(x);//
-
-const isMaxDisplay = () => (divMainHolder.innerText.length >= 17) ? true : false; 
-
-const calcNumbers = document.querySelectorAll('.num');
-
-const displayNumber = function(){
-    if(isMaxDisplay()) return; 
-
-    let display = 0;
-    let digitString = this.innerText;
-    let rawNumbersString = divMainHolder.innerText;
-    let filteredNumbersString = rawNumbersString.replace(/\,/g,'');
-
-    if ((rawNumbersString == 0 && !rawNumbersString.includes('.')) && !rawNumbersString.includes('-')) { 
-        display = digitString; }
-    else if (rawNumbersString < 1 && !rawNumbersString.includes('-')) { 
-        display = `${rawNumbersString}${digitString}`; }
-    else { 
-        let newString = filteredNumbersString += digitString;
-        let readableNumberString = Number(newString).toLocaleString('en-US', { maximumFractionDigits: 5 });
-        display = readableNumberString;
-    }
-
-    divMainHolder.innerHTML = display;
-};
-
-calcNumbers.forEach(function(btn){
-    btn.addEventListener('click', displayNumber);
-});
-
-const log = function(){
-    console.log(this.innerText);
-    console.log(typeof this.innerText);
-    console.log(parseInt(this.innerText));
-    console.log(typeof parseInt(this.innerText));
-    // console.log(this.innerText.length);
-};
-
-const calcSpecial = document.querySelectorAll('.special');
-
-const useSpecial = function(){
-    if (isMaxDisplay()) return; 
-    if (divMainHolder.innerText.includes('.')) return;
-
-    console.clear();
-    
-    let dot = '.';
-    let hyphenMinus = '-';
-
-    console.log(this.innerText);
-    let character = this.innerText;
-    let rawNumbersString = divMainHolder.innerText;
-    console.log(rawNumbersString);
-
-
-    if (character == dot && rawNumbersString == '0') { 
-        console.log('f1');
-        divMainHolder.innerText = '0.'; }
-    else if (character == hyphenMinus && rawNumbersString == '0') { 
-        console.log('f2');
-        divMainHolder.innerText = '-0'; }
-    else if (character == dot && !rawNumbersString.includes(dot)) { 
-        console.log('f3');
-        divMainHolder.innerText += '.'; }
-    else if (character == dot && rawNumbersString === '-0') { 
-        console.log('f4');
-        divMainHolder.innerText = '-0.'; }
-
-
-};
-
-calcSpecial.forEach(function(btn){
-    btn.addEventListener('click', useSpecial);
-});
 
 // const test = function(e){
 //     console.log(e.keyCode);
