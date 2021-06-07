@@ -120,6 +120,8 @@ button {
 #topHolder {
     height: 30%;
     opacity: .8;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #mainHolder {

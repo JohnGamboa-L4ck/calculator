@@ -52,6 +52,8 @@ const isMaxDisplay = () => ( divMainHolder.innerText.length >= 17) ? true : fals
 const calcNumbers = document.querySelectorAll('.num');
 const calcSpecial = document.querySelectorAll('.special');
 const calcDelete = document.querySelectorAll('.delete');
+const calcOperators = document.querySelectorAll('.operator');
+const calcEqualTo = document.querySelector('#equal');
 
 const displayNumber = function(){
     if(isMaxDisplay()) return; 
@@ -98,16 +100,13 @@ calcSpecial.forEach(function(btn){
     btn.addEventListener('click', useSpecial);
 });
 
-// let localFirstNumber = localStorage.getItem('firstNumber');
-// let localOperator = localStorage.getItem('operator');
-// let localSecondNumber = localStorage.getItem('secondNumber');
-// let localOperatorCounter = localStorage.getItem('operatorCounter');
-
 const resetLocal = function (){
     localStorage.setItem('firstNumber', '');
     localStorage.setItem('operator', '');
     localStorage.setItem('secondNumber', '');
-    localStorage.setItem('operatorCounter', '0');
+    localStorage.setItem('operatorCounter', 0);
+    localStorage.setItem('arrayHolder', JSON.stringify([]));
+    localStorage.setItem('displayHolder', localStorage.getItem('arrayHolder'));
 };
 resetLocal();
 
@@ -137,58 +136,68 @@ calcDelete.forEach(function(btn){
     btn.addEventListener('click', useDelete);
 });
 
-const add = (fNum, sNum) => fNum + sNum;
-const subtract = (fNum, sNum) => fNum - sNum;
-const multiply = (fNum, sNum) => fNum * sNum;
-const divide = (fNum, sNum) => fNum / sNum;
-
 const isFalsyExceptZero = (value) => (!value && value !== 0) ? true : false;
 
-const operate = (fNum, operator, sNum) => {
-    if (localStorage.getItem('operatorCounter') == '0') { return; }
-    if ((isFalsyExceptZero(fNum) || isFalsyExceptZero(sNum)) || !operator) { return 'ERROR'; }
-
-    let operation = 0;
-    if(typeof fNum != 'number' || typeof sNum != 'number'){ return 'Syntax ERROR 1'}
-    else if ((operator !== '+' && operator !== '-') && (operator !== 'x' && operator !== '÷')){
-        return 'Syntax ERROR 2'; }
-    else if (operator === '+'){ operation = add; }
-    else if (operator === '-'){ operation = subtract; }
-    else if (operator === 'x'){ operation = multiply; } 
-    else { operation = divide; }     
-
-    return operation(fNum, sNum);
+const cleanString = function(string){
+    return string
+        .replace(/[\[][\"]/g, '')
+        .replace(/[\"][\,][\"]/g, ' ')
+        .replace(/[\"][\]]/g, '');
 };
-
-// let x = operate(4, '-', 2); //
-// console.log(x);//
-
-const calcOperators = document.querySelectorAll('.operator');
 
 const selectOperator = function(){
     console.clear();
-    if (this.innerText == localStorage.getItem('operator')) { return; }
+    // if (this.innerText == localStorage.getItem('operator')) { return; }
     let operator = this.innerText;
-    console.log(operator);
     let localFirstNumber = localStorage.getItem('firstNumber');
+    let localSecondNumber = localStorage.getItem('secondNumber');
     let localOperator = localStorage.getItem('operator');
+    let counter = Number(localStorage.getItem('operatorCounter'));
 
     let rawNumbersString = divMainHolder.innerText;
-    console.log(localFirstNumber);
+    let parsedArray = JSON.parse(localStorage.getItem('arrayHolder'));
+    
+    console.log('Operator clicked: ', operator);
+    console.log('Number on main screen: ', rawNumbersString);
+    console.log('counter: ', counter);
+    console.log('localStorage firstNumber: ', localFirstNumber);
+    console.log('localStorage operator: ', operator);
+    console.log('parsedArray: ', parsedArray);
 
     if(localFirstNumber == ''){
-        console.log('run 1');
-        divTopHolder.innerText = `${rawNumbersString} ${operator}`;
-        divMainHolder.innerText = '0';
+        console.log('if ONE');
+
+        localStorage.setItem('operatorCounter', counter += 1 );
         localStorage.setItem('firstNumber', rawNumbersString);
         localStorage.setItem('operator', operator);
-    } else if ( localOperator !== operator && rawNumbersString == '0') {
-        console.log('run 2');
-        divTopHolder.innerText = `${localFirstNumber} ${operator}`;
+
+        divTopHolder.innerText = `${rawNumbersString} ${operator}`;
+        divMainHolder.innerText = '0';
+    } 
+    else if ( localOperator != operator && rawNumbersString == '0') {
+        console.log('if TWO');
         localStorage.setItem('operator', operator);
-    } else { //not sure if I should use else or if else // prolly else
-        console.log('run 3');
-        //topHolder (0 + 0) +   OR ['0', '+', '0', '+'] then store in a localStrorage //don't touch useDelete
+        divTopHolder.innerText = `${localFirstNumber} ${operator}`;
+    } else if (!isFalsyExceptZero(localFirstNumber) && isFalsyExceptZero(localSecondNumber)){
+        console.log('if THREE');
+        localStorage.setItem('operatorCounter', counter += 1 );
+        localStorage.setItem('secondNumber', rawNumbersString);
+        parsedArray.push(localFirstNumber, localOperator, rawNumbersString, operator);
+        localStorage.setItem('arrayHolder', JSON.stringify(parsedArray));
+
+        localStorage.setItem('displayHolder', cleanString(localStorage.getItem('arrayHolder')));
+        divTopHolder.innerText = localStorage.getItem('displayHolder');
+        divMainHolder.innerText = '0';
+    }
+    else { //this else should not be able to change the localStorage firstNumber and operator
+        console.log('if FOUR');
+        localStorage.setItem('operatorCounter', counter += 1 );
+        parsedArray.push(rawNumbersString, operator);
+        localStorage.setItem('arrayHolder', JSON.stringify(parsedArray));
+
+        localStorage.setItem('displayHolder', cleanString(localStorage.getItem('arrayHolder')));
+        divTopHolder.innerText = localStorage.getItem('displayHolder');
+        divMainHolder.innerText = '0';
     }
 
 };
@@ -196,6 +205,44 @@ const selectOperator = function(){
 calcOperators.forEach(function(btn){
     btn.addEventListener('click', selectOperator);
 });
+
+const add = (fNum, sNum) => fNum + sNum;
+const subtract = (fNum, sNum) => fNum - sNum;
+const multiply = (fNum, sNum) => fNum * sNum;
+const divide = (fNum, sNum) => fNum / sNum;
+
+const solve = function(...numbers) {
+    console.log('Solve function!!!!!');
+    // code here //replace "÷" with "/" then solve
+    resetLocal();
+};
+
+const operate = function(fNum, operator, sNum) {
+    if (Number(localStorage.getItem('operatorCounter')) > 1) { 
+        solve(JSON.parse(localStorage.getItem('arrayHolder')));
+        return; 
+    } 
+    //maybe just create another operate function that will take localStorage.setItem('arrayHolder') as an argument
+    //then return
+    if ((isFalsyExceptZero(fNum) || isFalsyExceptZero(sNum)) || !operator) { return 'ERROR'; }
+    if (typeof fNum != 'number' || typeof sNum != 'number') { return 'Syntax ERROR 1'}
+    if ((operator !== '+' && operator !== '-') && (operator !== 'x' && operator !== '÷'))
+    { return 'Syntax ERROR 2'; }
+    
+    let operation = 0;
+    if (operator === '+'){ operation = add; }
+    else if (operator === '-'){ operation = subtract; }
+    else if (operator === 'x'){ operation = multiply; } 
+    else { operation = divide; }     
+
+    // resetLocal();//added on june 7 //might not be needed here
+    return operation(fNum, sNum);
+};
+
+calcEqualTo.addEventListener('click', operate); //operate()
+
+// let x = operate(4, '+', 2); //
+// console.log(x);//
 
 // const test = function(e){
 //     console.log(e.keyCode);
