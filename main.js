@@ -182,7 +182,7 @@ calcOperators.forEach(function(btn){
 const removeComma = (string) => string.replace(/\,/g, ''); 
 const replaceFalseOperator = (string) => string.replace(/\×/g, '*').replace(/\÷/g, '/'); 
 
-const stringToNumber = function(string){
+const stringToNumberIfNotOperator = function(string){
     let item = string;
     if((string !== '+' && string !== '-') && (string !== '*' && string !== '/')){
         item = Number(string);
@@ -195,94 +195,47 @@ const subtract = (fNum, sNum) => fNum - sNum;
 const multiply = (fNum, sNum) => fNum * sNum;
 const divide = (fNum, sNum) => fNum / sNum;
 
-//delete later on
-console.success = (message) => { 
-    console.log('%c' + message, 'color: green; font-weight:bold; font-size: 1.5rem;') 
-}
-
 const solve = function(array) {
-    // if(!array) return 'ERROR'; 
-    // console.log('array: ',array);
-    // let newArray = array
-    //     .map(removeComma)
-    //     .map(replaceFalseOperator)
-    //     .map(stringToNumber);
-    // console.log('newArray form',newArray);
-    array = [-10, "+", 20.5, "-", 0.5, "/", 5, "*", 50];//temporary array //rename variable later: array to newArray
-    //100 //5.5
-    console.log(array);
-    console.log('arraylength:',array.length);
-    let loop = 1;  
-    let solved = 0;
-    let zeroIndexValueHolder = 0;
-    console.log('LOOOOOOOOP START------------------');
+    if(!array) return 'ERROR'; 
+    array = array
+        .map(removeComma)
+        .map(replaceFalseOperator)
+        .map(stringToNumberIfNotOperator);
+    
     while (array.length != 1){
-        console.success(`LOOP Number: ${loop}`);
-        console.log('Array count: ', array.length);
-        console.table(array);
-        
-        if(solved === 0){
+        if(array[1] == '*'){
+            array[0] = array[0] * array[2]; } 
+        else if ( array[1] == '/'){
+            array[0] = array[0] / array[2]; } 
+        else if ( array[1] == '+'){
+            array[0] = array[0] + array[2]; } 
+        else if (array[1] == '-') {
+            array[0] = array[0] - array[2]; }
+        else { return; }
 
-            let firstEquation = 0;
-            if(array[1] == '*'){
-                firstEquation = array[0] * array[2];
-            } else if ( array[1] == '/'){
-                firstEquation = array[0] / array[2];
-            } else if ( array[1] == '+'){
-                firstEquation = array[0] + array[2];
-            } else if (array[1] == '-') {
-                firstEquation = array[0] - array[2];
-            }
-            zeroIndexValueHolder = firstEquation;
-            
-        }else {
-            if(array[1] == '*'){
-                zeroIndexValueHolder = array[0] * array[2];
-            } else if ( array[1] == '/'){
-                zeroIndexValueHolder = array[0] / array[2];
-            } else if ( array[1] == '+'){
-                zeroIndexValueHolder = array[0] + array[2];
-            } else if (array[1] == '-') {
-                zeroIndexValueHolder = array[0] - array[2];
-            }
-        }
-        loop++;
-        solved++;
-        array[0] = zeroIndexValueHolder;
         if(array.length !== 1){
             array.splice(1,1);
             array.splice(1,1);
         }
-        console.log('Solved: ', solved)
-        console.log('zeroIndexValueHolder Value: ', zeroIndexValueHolder);
-        console.log('First item: ',array[0]);
-
-        console.table(array);
-        console.log('Array count: ',array.length);
     }
-    console.log('LOOOOOOOOP END------------------');
-    let total = zeroIndexValueHolder.toString().toLocaleString();
-    return total;
-    divTopHolder.innerText = total;
+
+    let total = array[0].toLocaleString();
     resetLocal();
+    divTopHolder.innerText = '';
+    divMainHolder.innerText = total;
 };
-
-console.log(solve());
-
-
 
 const operate = (fNum, operator, sNum) => {
     if (Number(localStorage.getItem('operatorCounter')) > 1) { 
         let parsedArray = JSON.parse(localStorage.getItem('arrayHolder'));
         parsedArray.push(divMainHolder.innerText);
-        // console.log(parsedArray);
         solve(parsedArray);
     return; } 
 
     if (!operator) {
-        fNum = Number(localStorage.getItem('firstNumber'));
+        fNum = Number(removeComma(localStorage.getItem('firstNumber')));
         operator = localStorage.getItem('operator');
-        sNum = Number(divMainHolder.innerText);
+        sNum = Number(removeComma(divMainHolder.innerText));
     };  
     
     if ((isFalsyExceptZero(fNum) || isFalsyExceptZero(sNum)) || !operator) { return 'ERROR'; }
@@ -299,8 +252,8 @@ const operate = (fNum, operator, sNum) => {
     divTopHolder.innerText = '';
     divMainHolder.innerText = operation(fNum, sNum).toLocaleString();
     resetLocal();
-    return operation(fNum, sNum);
 };
+
 calcEqualTo.addEventListener('click', operate);
 
 
