@@ -77,7 +77,7 @@ calcNumbers.forEach(function(btn){
 
 const useSpecial = function(){
     if (isMaxDisplay()) return; 
-    
+
     let dot = '.';
     let intChanger = '±';
     let character = this.innerText;
@@ -114,7 +114,7 @@ const useDelete = function(){
     if ((divMainHolder.innerText == '0' && this.innerText == 'C')
         || (divMainHolder.innerText == '-0' && this.innerText == 'C'))
     { return; }
-
+    
     let button = this.innerText;
     let rawNumbersString = divMainHolder.innerText;
     let filteredNumbersString = rawNumbersString.replace(/\,/g,'');
@@ -196,7 +196,8 @@ const multiply = (fNum, sNum) => fNum * sNum;
 const divide = (fNum, sNum) => fNum / sNum;
 
 const solve = function(array) {
-    if(!array) return 'ERROR'; 
+    if(!array) return 'ERROR';
+
     array = array
         .map(removeComma)
         .map(replaceFalseOperator)
@@ -256,8 +257,31 @@ const operate = (fNum, operator, sNum) => {
 
 calcEqualTo.addEventListener('click', operate);
 
+const keydownClickButton = function(event){
+    const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+    if (!key) return;
+    key.click();
+};
 
-// const test = function(e){
-//     console.log(e.keyCode);
-// };
-// window.addEventListener('keydown', test);
+window.addEventListener('keydown', keydownClickButton);
+
+const playClickSound = function(event){
+    if(!event.target.dataset.key) return;
+    // if(event.target.nodeName !== 'BUTTON') return;
+    const key = document.querySelector(`.key[data-key="${event.target.dataset.key}"]`);
+    key.classList.add('press-down');
+    const audio = document.querySelector('#keypress');
+    audio.currentTime = 0;
+    audio.play();
+}
+
+window.addEventListener('click', playClickSound);
+
+const removeTransition = function(event){
+    if(event.propertyName !== 'transform') { return; }
+    this.classList.remove('press-down');
+};
+
+const keys = document.querySelectorAll('.key');
+keys.forEach( key => key.addEventListener('transitionend', removeTransition));
+

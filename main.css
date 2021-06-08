@@ -97,6 +97,7 @@ button {
     justify-content: space-between;
     flex-direction: column;
     padding: 1rem;
+    box-shadow: 0rem 1rem hsl(0, 0%, 45%);
 }
 
 #calcScreen {
@@ -106,7 +107,7 @@ button {
     padding: .5rem;
     margin: .5rem .5rem 1rem .5rem;
     border-radius: .2rem;
-    border: 2px inset var(--foreground);
+    border: .25rem inset hsl(0, 0%, 88%);
 }
 
 #calcScreen div {
@@ -143,18 +144,24 @@ button {
     color: var(--primary);
     background-color: var(--background);
     margin: .5rem;
-    border-radius: .1rem;
+    border-radius: .25rem;
     font-size: 1.3rem;
     font-family: inherit;
+    box-shadow: 0 .40rem hsl(0, 0%, 55%);
 }
 
 #calcKeypad button:hover {
     background-color: var(--hover)!important;
 }
 
-#calcKeypad button:active {
+.key {
+    transition: all .07s ease!important;
+}
+
+.press-down {
     background-color: var(--hover)!important;
-    transform: scale(1.05);
+    box-shadow: 0 .25rem hsl(0, 0%, 45%);
+    transform: translateY(.15rem);
 }
 
 #equal {
@@ -174,10 +181,21 @@ button {
 
 footer {
     margin: 1rem 0;
+    text-align: center;
+    opacity: .6
+}
+
+footer:hover {
+    opacity: 1;
 }
 
 footer a {
     color: var(--primary);
+    font-size: 1.1rem;
+}
+
+footer a:hover {
+    color: var(--tertiary);
 }
 
 @keyframes rotating {
