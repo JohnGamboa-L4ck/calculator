@@ -30,6 +30,7 @@ const updateBtnModeIcon = function(){
 updateBtnModeIcon();
 btnMode.addEventListener('click', toggleDarkmode);
 
+const divCalScreen = document.querySelector('#calcScreen');
 const divTopHolder = document.querySelector('#topHolder');
 const divMainHolder = document.querySelector('#mainHolder');
 
@@ -41,6 +42,30 @@ const callback = function(mutationsList, observer) {
             if(divMainHolder.textContent.length > 13) { 
                 divMainHolder.classList.add('shrink') } 
             else { divMainHolder.removeAttribute('class'); }
+
+            if ((divMainHolder.innerText == '-∞' || divMainHolder.innerText == '∞')
+              || divMainHolder.innerText == 'NaN'){
+                let btns = document.querySelectorAll('.key');
+                btns.forEach(function(btn){ 
+                    const audio = document.querySelector('#error');
+                    audio.play();
+                    btn.setAttribute('disabled', 'true'); });
+                setTimeout(() =>{ 
+                    divMainHolder.innerText = ''; 
+                    btns.forEach(function(btn){ btn.setAttribute('style', 'opacity: .7;'); });
+                    divCalScreen.classList.add('off');
+                },1200);
+                setTimeout(() => { divCalScreen.classList.remove('off'); }, 4000);
+                setTimeout(() => {
+                    divCalScreen.classList.add('off');}, 4250);
+                setTimeout(function(){
+                    divMainHolder.innerText = '0';
+                    btns.forEach(function(btn){ 
+                        btn.removeAttribute('disabled'); 
+                        btn.removeAttribute('style');});
+                    divCalScreen.classList.remove('off');
+                },5500);   
+            }
         }
     }
 };
@@ -267,7 +292,6 @@ window.addEventListener('keydown', keydownClickButton);
 
 const playClickSound = function(event){
     if(!event.target.dataset.key) return;
-    // if(event.target.nodeName !== 'BUTTON') return;
     const key = document.querySelector(`.key[data-key="${event.target.dataset.key}"]`);
     key.classList.add('press-down');
     const audio = document.querySelector('#keypress');
@@ -285,3 +309,4 @@ const removeTransition = function(event){
 const keys = document.querySelectorAll('.key');
 keys.forEach( key => key.addEventListener('transitionend', removeTransition));
 
+//footer display flex on maxwidth 700?
