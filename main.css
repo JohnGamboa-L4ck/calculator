@@ -59,31 +59,35 @@ button {
     outline: none;
 }
 
-#mode {
+body div:first-of-type {
+    right: 0;
+    margin-left: auto;
+}
+
+#mode, #about, #close {
     background-color: var(--transparent);
     border: 1px solid;
     border-color: inherit;
     color: inherit;
     border-radius: 3px;
-    right: 0;
-    margin-left: auto;
     padding: .2rem;
 }
 
-#mode .material-icons {
+#mode .material-icons, #about {
     display: none;
 }
 
-#mode .active {
+#mode .active, #about span {
     display: block;
 }
 
-#mode .active:hover, #mode:focus span {
+#mode .active:hover, #mode:focus span,
+#about span:hover, #about:focus span {
     animation: rotating 10s;
     animation-iteration-count: infinite;
 }
 
-#mode:focus-visible {
+#mode:focus-visible, #about:focus-visible {
     outline: auto;
 }
 
@@ -208,18 +212,18 @@ footer:hover {
 footer a {
     color: var(--primary);
     font-size: 1.1rem;
+    margin: 0 .4rem;
 }
 
 footer a::before, footer a::after {
     content: '';
-    margin: 0 .2rem;
 }
 
 footer a:hover, footer a:focus {
     color: var(--tertiary);
     letter-spacing: .3rem;
     text-decoration: none;
-    transition: .5s;
+    transition: .25s;
     background-color: var(--background);
     padding: 1rem;
     height: 100%;
@@ -244,6 +248,10 @@ footer a:hover::after, footer a:focus::after {
     z-index: -2;
 }
 
+#close {
+    display: none;
+}
+
 @keyframes rotating {
     0% {transform: rotate(0deg);}
     50% {transform: rotate(180deg);}
@@ -251,9 +259,89 @@ footer a:hover::after, footer a:focus::after {
 }
 
 @media only screen and (max-width: 700px) {
-    footer a{
-        display: block;
+    body > * {
+        margin: .5rem;
     }
-}
 
-/* //footer display flex on maxwidth 700? */
+    body {
+        display: flex;
+        justify-content:center;
+        align-items: center;
+    }
+
+    #items {
+        top: 0;
+        position: absolute;
+    }
+    
+    footer {
+        background-color: var(--background);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        opacity: 1;
+        margin: 0;
+    }
+
+    footer a {
+        align-self: center;
+        width: auto;
+        background-color: var(--background);
+        padding: 0 1rem;
+    }
+
+    footer a:focus {
+        outline: none;
+    }
+
+    footer a:hover, footer a:focus {
+        color: var(--tertiary);
+        letter-spacing: .3rem;
+        text-decoration: none;
+        transition: .25s;
+        height: auto;
+    }
+
+    footer a:hover::before, footer a:hover::after,
+    footer a:focus::before, footer a:focus::after {
+        content: '';
+        width: 100%;
+        height: 1.3rem;
+        background-color: var(--primary);    
+        margin: 0 1rem;
+    }
+
+    footer a:hover::before, footer a:focus::before {
+        right:0;
+        position: absolute;
+    }
+
+    footer a:hover::after, footer a:focus::after {
+        position: absolute;
+        left: 50%;
+    }
+
+    footer {
+        display: none;
+    }
+
+    #close {
+        display: flex;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    #close:hover, #close:focus {
+        background-color: var(--tertiary);
+    }
+
+    #about {
+        display: inline-block;
+    }
+
+}

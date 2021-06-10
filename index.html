@@ -12,10 +12,15 @@
         <title>Calculator</title>
     </head>
     <body>
-        <button id = "mode" aria-label="toggle dark mode">
-            <span id = "lightMode" class= "material-icons">light_mode</span>
-            <span id = "darkMode" class= "material-icons">dark_mode</span>
-        </button>
+        <div id = "items">
+            <button id = "mode" aria-label="toggle dark mode">
+                <span id = "lightMode" class= "material-icons">light_mode</span>
+                <span id = "darkMode" class= "material-icons">dark_mode</span>
+            </button>
+            <button id = "about" aria-label="about this webpage">
+                <span class="material-icons">info</span>
+            </button>
+        </div>
         <div id = "container">
             <div id = "calcScreen">
                 <div id = "topHolder"></div>
@@ -65,8 +70,11 @@
             <audio id = "error" src = "sounds/error1.mp3"></audio>
         </div>
         <footer>
-            <a href = "https://github.com/JohnGamboa-L4ck/calculator/">Source Code</a>
+            <button id = "close">
+                <span class="material-icons">close</span>
+            </button>
             <a class="dev" href = "https://github.com/JohnGamboa-L4ck"> Built by: L4ck</a>
+            <a href = "https://github.com/JohnGamboa-L4ck/calculator/">View Source Code</a>
             <a href="https://www.zapsplat.com">Sound from Zapsplat.com</a> 
         </footer>
     </body>

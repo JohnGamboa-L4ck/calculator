@@ -308,3 +308,14 @@ const removeTransition = function(event){
 
 const keys = document.querySelectorAll('.key');
 keys.forEach( key => key.addEventListener('transitionend', removeTransition));
+
+const btnAbout = document.querySelector('#about');
+const footerElement = document.querySelector('footer');
+const btnClose = document.querySelector('#close'); 
+
+const showAbout = () => footerElement.setAttribute('style', 'display: flex;');
+const closeAbout = () => footerElement.removeAttribute('style');
+
+btnAbout.addEventListener('click', showAbout);
+btnClose.addEventListener('click', closeAbout);
+
