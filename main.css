@@ -83,6 +83,10 @@ button {
     animation-iteration-count: infinite;
 }
 
+#mode:focus-visible {
+    outline: auto;
+}
+
 #container {
     max-width: 370px;
     max-height: 550px;
@@ -155,6 +159,10 @@ button {
 
 #calcKeypad button:hover {
     background-color: var(--hover)!important;
+}
+
+#calcKeypad button:focus-visible {
+    outline-style: auto;
 }
 
 .key {
@@ -247,3 +255,5 @@ footer a:hover::after, footer a:focus::after {
         display: block;
     }
 }
+
+/* //footer display flex on maxwidth 700? */

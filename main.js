@@ -52,7 +52,7 @@ const callback = function(mutationsList, observer) {
                     btn.setAttribute('disabled', 'true'); });
                 setTimeout(() =>{ 
                     divMainHolder.innerText = ''; 
-                    btns.forEach(function(btn){ btn.setAttribute('style', 'opacity: .7;'); });
+                    btns.forEach(function(btn){ btn.setAttribute('style', 'opacity: .8;'); });
                     divCalScreen.classList.add('off');
                 },1200);
                 setTimeout(() => { divCalScreen.classList.remove('off'); }, 4000);
@@ -308,5 +308,3 @@ const removeTransition = function(event){
 
 const keys = document.querySelectorAll('.key');
 keys.forEach( key => key.addEventListener('transitionend', removeTransition));
-
-//footer display flex on maxwidth 700?
