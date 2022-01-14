@@ -1,8 +1,8 @@
 # Calculator
 
-Calculator built with HTML5, CSS, and Vanilla Javascript.
+An on-screen calculator created using JavaScript, HTML, and CSS.
 
-**Live Demo** [https://mrjgamboa.github.io/calculator/](https://mrjgamboa.github.io/calculator/)
+**Live Demo:** [https://mrjgamboa.github.io/calculator/](https://mrjgamboa.github.io/calculator/)
 
 ## Description
 
